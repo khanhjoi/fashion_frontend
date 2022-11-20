@@ -1,5 +1,5 @@
-<template lang="">    
-    <nav class="navbar navbar-expand-lg navbar-light">
+<template>    
+    <nav class="navbar navbar-expand-lg navbar-light" >
         <div class="container-fluid">
           <a class="navbar-brand" href="#">
             <router-link to="/"><img class="navbar-brand" src="../../../img/Fashion_logo.svg.png" alt=""></router-link>
@@ -14,7 +14,7 @@
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Cửa hàng
+                  Cửa hàng 
                 </a>
                 <ul class="dropdown-menu">
                   <h6>Áo</h6>
@@ -59,12 +59,21 @@
               </div>
             </form>
             
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 " v-if="!this.$store.state.token">
+              
               <li class="nav-item">
-                <router-link class="nav-link" to="/login"><a class="nav-link" href="#">Đăng nhập</a></router-link>
+                <router-link class="nav-link" to="/login"><a class="nav-link login_btn" href="#">Đăng nhập</a></router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="/register"><a class="nav-link" href="#">Đăng ký</a></router-link>
+                <router-link class="nav-link" to="/register"><a class="nav-link register_btn" href="#">Đăng ký</a></router-link>
+              </li>
+            </ul>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 " v-if="this.$store.state.token">
+              <li class="nav-item">
+                <router-link class="nav-link" to="/login"><a class="nav-link info " href="#">Thông tin</a></router-link>
+              </li>
+              <li class="nav-item">
+                <router-link @click="logout" class="nav-link" to="/"><a  class="nav-link logout_btn " href="#"><i class="fa-solid fa-right-from-bracket"></i></a></router-link>
               </li>
             </ul>
           </div>
@@ -73,13 +82,21 @@
 </template>
 
 <script>
+import  API from '../../api'
 
   
 export default {
-  //export components
-    components: {
-      
+  data() {
+    return {
+      token: ""
     }
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem('firsLogin');
+      location.reload();
+    }
+  }
 }
 
 </script>
@@ -100,6 +117,7 @@ export default {
     }
     .nav-link {
       text-decoration: none;
+      
     }
     .nav_form > input{
         border: 0;
@@ -128,31 +146,62 @@ export default {
     .cart{
       display: none;
       position: absolute;
-      width: 440px;
+      width: 400px;
       height: 460px;
       left: 48%;
-      top: 82%;
+      top: 78%;
       background: #fff;
       z-index: 1;
       border-radius: 8px;
       box-shadow: 1px 1px 8px#ccc;
     }
+    
+    .user_info{
+      position: absolute;
+      width: 200px;
+      height: 230px;
+      left: 87%;
+      top: 78%;
+      padding-top: 4px;
+      background: #fff;
+      z-index: 1;
+      border-radius: 8px;
+      box-shadow: 1px 1px 8px#ccc; 
+    }
 
+  
     .cart:hover {
       display: block;
     }
 
+    .btn_cart:hover{
+      display: block;
+      cursor: pointer;
+      background-color: #ccc;
+    }
+
+    .btn_info,
     .btn_cart  {
       padding: 10px 14px;
     
     }
+
     .btn_cart:hover{
       cursor: pointer;
       background-color: #ccc;
       border-radius:3px;
     }
+
     .btn_cart:hover + div {
       display: block;
+    }
+
+    .user_btn:hover  div {
+      display: none;
+    }
+
+    .hidden{
+      display: none;
     }
   
     @media (min-width: 992px) {
@@ -174,6 +223,9 @@ export default {
         }
         .nav-link {
           width: 100px;
+        }
+        .user_btn{
+          padding-left: 30px;
         }
     }
     

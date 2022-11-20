@@ -1,4 +1,4 @@
-<template lang="">
+<template>
     <div class="footer container">
        <div class="row">
         <div class="brand col-12">

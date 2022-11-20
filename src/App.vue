@@ -1,6 +1,6 @@
 <template>
-  <HeaderCpn />
-
+  <HeaderCpn/>
+  
   <RouterView />
   
   <FooterCpn />

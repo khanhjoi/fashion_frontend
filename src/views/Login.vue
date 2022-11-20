@@ -1,18 +1,18 @@
 <template>
     <div class="login"> 
-      <form>
+      <form @submit.prevent="submitForm">
         <h2 class="login_titel">Login</h2>
         <div class="row mb-3">
-          <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+          <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
           <div class="col-sm-10">
-            <input type="email" class="form-control" id="inputEmail3">
+            <input v-model="user.email" name="email" type="email" class="form-control" id="inputEmail">
           </div>
           <span class="messages"></span>
         </div>
         <div class="row mb-3">
-          <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
+          <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
           <div class="col-sm-10">
-            <input type="password" class="form-control" id="inputPassword3">
+            <input  v-model="user.password" name="password" type="password" class="form-control" id="inputPassword">
           </div>
           <span class="messages"></span>
         </div>
@@ -21,10 +21,28 @@
     </div>
 </template>
 <script>
+  import API from '../api';
+
   //export components
   export default {
-    components: {
-      
+    data() {
+      return{
+        user: {
+          email: "",
+          password: "",
+        }
+      }
+    },
+    methods: {
+      async submitForm() {     
+        try {
+          const login = await API.Login(this.user);
+          localStorage.setItem('firsLogin', login.accessToken);
+          window.location.href = "/";
+        } catch (err) {
+          alert(err.response.data.msg);
+        }
+      }
     }
   }
 </script>

@@ -64,10 +64,15 @@ export default {
             products: [],
         }
     },
-    async created() {
-        let getProducts = await API.getProducts();
-        this.products = getProducts.products
+    methods: {
+        async getProducts() {
+            let getProducts = await API.getProducts();
+            this.products = getProducts.products
+        }
     },
+    created() {
+        this.getProducts();
+    }
 }
 
 </script>

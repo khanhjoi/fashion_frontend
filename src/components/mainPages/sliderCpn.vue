@@ -1,4 +1,4 @@
-<template lang="">
+<template>
     <div class="slide container">
       <div class="row">
         <div class="slide_title col-lg-6 col-md-12">
@@ -12,13 +12,13 @@
           <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
               <div class="carousel-inner">
                 <div class="carousel-item active">
-                  <img src="../../../img/pic1.jpg" class="d-block w-100" alt="...">
+                  <img src="https://res.cloudinary.com/dxkokmfiu/image/upload/v1668843711/test/mijmfycislhbxarojazx.jpg" class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-item">
-                  <img src="../../../img/pic2.jpg" class="d-block w-100" alt="...">
+                  <img src="https://res.cloudinary.com/dxkokmfiu/image/upload/v1668843590/test/almoscnalej3rghes4ka.jpg" class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-item">
-                  <img src="../../../img/pic3.jpg" class="d-block w-100" alt="...">
+                  <img src="https://res.cloudinary.com/dxkokmfiu/image/upload/v1668843365/test/vmpxit7xkub5rvvetvlm.jpg" class="d-block w-100" alt="...">
                 </div>
               </div>
               <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
