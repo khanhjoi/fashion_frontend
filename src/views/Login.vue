@@ -1,7 +1,7 @@
 <template>
     <div class="login"> 
       <form @submit.prevent="submitForm">
-        <h2 class="login_titel">Login</h2>
+        <h2 class="login_titel">Đăng nhập</h2>
         <div class="row mb-3">
           <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
           <div class="col-sm-10">
@@ -10,13 +10,13 @@
           <span class="messages"></span>
         </div>
         <div class="row mb-3">
-          <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+          <label for="inputPassword" class="col-sm-2 col-form-label">Mật khẩu</label>
           <div class="col-sm-10">
             <input  v-model="user.password" name="password" type="password" class="form-control" id="inputPassword">
           </div>
           <span class="messages"></span>
         </div>
-        <button type="submit" class="login_btn btn btn-dark">Sign in</button>
+        <button type="submit" class="login_btn btn btn-dark">Đăng nhập</button>
       </form>
     </div>
 </template>

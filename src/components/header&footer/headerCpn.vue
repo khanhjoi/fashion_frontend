@@ -10,57 +10,45 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Trang chủ</a>
+                <router-link to="/" class="nav-link active" aria-current="page" href="#">Trang chủ</router-link>
               </li>
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link" href="#store"  @click="navigationStore">
                   Cửa hàng 
                 </a>
-                <ul class="dropdown-menu">
-                  <h6>Áo</h6>
-                  <li><a class="dropdown-item" href="#">Áo Phông</a></li>
-                  <li><a class="dropdown-item" href="#">Áo Sơ mi</a></li>
-                  <li><a class="dropdown-item" href="#">Áo PoLo</a></li>
-                  <li><a class="dropdown-item" href="#">Áo Vetst</a></li>
-                  <li><a class="dropdown-item" href="#">Áo Len</a></li>
-                  <h6>Quần</h6>
-                  <li><a class="dropdown-item" href="#">Quần Jean</a></li>
-                  <li><a class="dropdown-item" href="#">Quần Tây</a></li>
-                  <li><a class="dropdown-item" href="#">Quần Kaki</a></li>
-                  <li><a class="dropdown-item" href="#">Quần đùi</a></li>
-                </ul>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Liên Hệ</a>
+                <a class="nav-link" @click="navigationContact()" href="#contact">Liên Hệ</a>
               </li>
             </ul>
-            <form class="d-flex nav_form">
+            <form @submit.prevent="submitSearch"  class="d-flex nav_form">
               <div>
                   <i class="fa-solid fa-magnifying-glass"></i>
               </div>
-              <input class="form-control me-2" type="search" placeholder="Tìm Kiếm" aria-label="Search">
+              <input v-model="input" class="form-control me-2" type="search" placeholder="Tìm Kiếm" aria-label="Search">
               <div class="btn_cart">
                   <i class="fa-solid fa-cart-shopping"></i>
               </div>
               <div class="cart">
-                <h3 class="cart_title">Võ Hàng</h3>
+                <h3 class="cart_title">Giỏ Hàng</h3>
                 <hr>
-                <div class="list-group cart_list">
-                  <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+                <div class="list-group cart_list" >
+                  <h1 v-if="carts.length === 0" class="cart_list_empty">
+                    Võ hàng trống
+                  </h1>
+                  <a v-for="( product, i) in carts" :key="i"  href="#" class="container list-group-item list-group-item-action active" aria-current="true">
                     <div class="d-flex w-100 justify-content-between">
-                      <h5 class="mb-1">hàng 1</h5>
-                      <small>3 days ago</small>
+                      <h5 class="mb-1">{{product.product.title}}</h5>
                     </div>
-                    <p class="mb-1">giá: 120.000 đ</p>
-                    <small>12/2/2022</small>
+                    <p class="mb-1">giá: {{product.product.price}} đ</p>
+                    <p class="mb-1">Số lượng: {{product.number}}</p>
                   </a>
                 </div>
-                <h3 class="cart_title"><button type="button" class="btn btn-dark">Mua Hàng</button></h3>
+                <router-link to="info" class="cart_title"><button type="button" class="btn btn-dark">Mua Hàng</button></router-link>
               </div>
             </form>
             
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 " v-if="!this.$store.state.token">
-              
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 " v-if="!this.$store.state.token">    
               <li class="nav-item">
                 <router-link class="nav-link" to="/login"><a class="nav-link login_btn" href="#">Đăng nhập</a></router-link>
               </li>
@@ -70,7 +58,7 @@
             </ul>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 " v-if="this.$store.state.token">
               <li class="nav-item">
-                <router-link class="nav-link" to="/login"><a class="nav-link info " href="#">Thông tin</a></router-link>
+                <router-link class="nav-link" to="/info"><a class="nav-link info " href="#">Thông tin</a></router-link>
               </li>
               <li class="nav-item">
                 <router-link @click="logout" class="nav-link" to="/"><a  class="nav-link logout_btn " href="#"><i class="fa-solid fa-right-from-bracket"></i></a></router-link>
@@ -88,13 +76,46 @@ import  API from '../../api'
 export default {
   data() {
     return {
-      token: ""
+      token: "",
+      carts: [],
+      user: {},
+      input: "",
     }
   },
   methods: {
-    logout() {
+    async logout() {
       localStorage.removeItem('firsLogin');
-      location.reload();
+      this.$router.push('/');
+
+      // wait router 
+      setTimeout(()=>{
+        location.reload();
+      },500)
+    },
+    async createCart() {
+      const token = { token: localStorage.getItem('firsLogin')};
+      this.user = await API.info(token);
+    },
+    navigationStore() {
+      this.$router.push("/#store");
+    },
+    navigationContact() {
+      this.$router.push("/#contact");
+    },
+    async submitSearch() {
+      if(this.input !== "") {
+        this.$router.push({path: "/search", query : { search: this.input }});
+      }
+    }
+  },
+  created() {
+        this.createCart();
+  },
+  watch: {
+    user: function(){
+      this.user.cart.forEach(item=>{
+        this.carts.push(item)
+      })
     }
   }
 }
@@ -136,6 +157,7 @@ export default {
     .cart_title {
       text-align: center;
       padding: 10px 0;
+      display: block;
     }
     
     .cart_list {
@@ -149,26 +171,12 @@ export default {
       width: 400px;
       height: 460px;
       left: 48%;
-      top: 78%;
+      top: 60%;
       background: #fff;
       z-index: 1;
       border-radius: 8px;
       box-shadow: 1px 1px 8px#ccc;
     }
-    
-    .user_info{
-      position: absolute;
-      width: 200px;
-      height: 230px;
-      left: 87%;
-      top: 78%;
-      padding-top: 4px;
-      background: #fff;
-      z-index: 1;
-      border-radius: 8px;
-      box-shadow: 1px 1px 8px#ccc; 
-    }
-
   
     .cart:hover {
       display: block;
@@ -202,6 +210,12 @@ export default {
 
     .hidden{
       display: none;
+    }
+
+    .cart_list_empty{
+      text-align: center;
+      font-size: 16px;
+      margin-top: 100px;
     }
   
     @media (min-width: 992px) {

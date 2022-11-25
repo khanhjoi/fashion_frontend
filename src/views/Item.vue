@@ -3,12 +3,23 @@
         <div class="row">
             <div class="img_pro col-lg-8 col-12">
                 <span>
-                    <img src="../../img/pic1.jpg" alt="">
+                    <img :src="`${url }`" alt="">
                 </span>
             </div>
             <div class="content_pro col-lg-4 col-12">
-                <h1 class="titel_pro">Áo Polo Dài Tay Nam 6APDT001DEN</h1>
-                <p>Tình trạng: Còn hàng</p>
+                <h1 class="titel_pro">{{this.product.title}}</h1>
+                <p>{{this.product.description}}</p>
+                <p> Giá: {{this.product.price}} đ</p>
+                <p> {{this.product.content}} </p>
+                <div class="container">
+                    <div class="number_item row">
+                        <h4 class="col">Số lượng: </h4>
+                        <input class="col" type="number" v-model="this.number">
+                    </div>
+                </div>
+                <div class="buy_item">
+                    <button @click="addCart" type="button" class="btn btn-dark" >Mua hàng <i class="fa-solid fa-cart-shopping"></i></button>
+                </div>
             </div>
         </div>
     </div>
@@ -21,16 +32,42 @@ import { useRoute } from 'vue-router';
   export default {
     data(){
         return{
+            number: 1,
             product: {},
+            // web will upload before get url so we will watch it to rerender
+            url: ''
         }
     },
     async created() {
         const route = useRoute();
         let getProduct = await API.getProduct(route.params.id);
         this.product = getProduct.product[0]
+        
     }, 
-    components: {
-      
+    methods: {
+        async addCart() {
+            try {
+                const token = { token: this.$store.state.token};
+                const user = await API.info(token);
+                const ProductInCart = {
+                    user: user,
+                    number: this.number,
+                    product: this.product,
+                }
+                const addProduct = await API.addProduct(ProductInCart);
+                
+                alert( addProduct);
+            } catch (err) {
+                alert(err.response.data.msg);
+            }
+        }
+    },
+    watch: {
+        "product.images.url": function(){
+            if(this.product.images.url){
+                this.url = this.product.images.url
+            }
+        }
     }
   }
 </script>
@@ -56,7 +93,18 @@ import { useRoute } from 'vue-router';
 
         box-shadow: 1px 3px 2px solid #ccc;
     }
-  
+    .number_item {
+        margin-bottom: 40px;
+    }
+
+    .number_item > h4{
+        width: 70px;
+    }
+
+    .number_item > input {
+        display: block;
+        width: 100px
+    }
   @media (min-width: 992px) {
     .login{
       width: 540px;

@@ -12,20 +12,31 @@ export default class API {
         const res = await axios.post('http://localhost:3000/user/login', user);
         return res.data;
     }
-    // logout
-    static async logout() {
-        const res = await axios.get('http://localhost:3000/user/logout');
+    
+    // get user info
+    static async info(token) {
+        const res = await axios.post('http://localhost:3000/user/info', token);
         return res.data;
     }
-    // get user info
-    static async infor(token) {
-        const res = await axios.post('http://localhost:3000/user/infor', token);
+
+    static async addProduct(cart) {
+        const res = await axios.post(`http://localhost:3000/user/add`, cart);
+        return res.data;
+    }
+    static async deleteProduct(info) {
+        const res = await axios.post(`http://localhost:3000/user/delete`, info);
+        return res.data;
+    }
+    static async buyProduct(info) {
+        const res = await axios.post(`http://localhost:3000/user/buyProduct`,info);
         return res.data;
     }
 
 // products api
-    static async getProducts() {
-        const res = await axios.get('http://localhost:3000/api/products');
+    static async getProducts(numberPage) {
+        const res = await axios.get('http://localhost:3000/api/products',{
+            params: numberPage
+        });
         return res.data;
     }
     
@@ -33,4 +44,12 @@ export default class API {
         const res = await axios.get(`http://localhost:3000/api/products/${id}`);
         return res.data;
     }
+
+    static async getQuantity(info) {
+        const res = await axios.get(`http://localhost:3000/api/products/Quantity`,{
+            params: info
+        });
+        return res.data;
+    }
+   
 }   

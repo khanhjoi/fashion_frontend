@@ -1,9 +1,9 @@
 <template>
   <div class="register"> 
     <form @submit.prevent="submitForm">
-      <h2 class="register_titel">Register</h2>
+      <h2 class="register_titel">Đăng ký</h2>
       <div class="row mb-3">
-        <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+        <label for="inputName" class="col-sm-2 col-form-label">Tên</label>
         <div class="col-sm-10">
           <input type="text" v-model="user.name" class="form-control" id="inputName">
         </div>
@@ -16,14 +16,14 @@
         <span class="messages"></span>
       </div>
       <div class="row mb-3">
-        <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
+        <label for="inputPassword3" class="col-sm-2 col-form-label">Mật khẩu</label>
         <div class="col-sm-10">
           <input type="password" v-model="user.password" class="form-control" id="inputPassword3">
         </div>
         <span class="messages"></span>
       </div>
       
-      <button type="submit" class="login_btn btn btn-dark">Register</button>
+      <button type="submit" class="login_btn btn btn-dark">Đăng ký</button>
     </form>
   </div>
 </template>

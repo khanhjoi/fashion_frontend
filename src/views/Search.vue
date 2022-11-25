@@ -1,31 +1,8 @@
 <template >
-    <div id="store" class="trendy" >
-       <h1 class="trendy_titles">
-            QUẦN ÁO XU HƯỚNG
-       </h1>
+ 
        <div class="trendy_container container">
             <div class="row">
-                <div class="trendy_ctn_nav col-lg-2">
-                    <h3>Thể loại quần áo</h3>
-                    <ul class="list-group nav list-group-flush">
-                        <li class="btn btn-secondary list-group-item dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Áo </li>
-                        <ul class="dropdown-menu">
-                            <li><a @click="getinfo('phông')" class="dropdown-item" >Áo Phông</a> </li>
-                            <li><a @click="getinfo('sơ mi')" class="dropdown-item" >Áo Sơ mi</a> </li>
-                            <li><a @click="getinfo('polo')" class="dropdown-item" >Áo Polo</a> </li>
-                            <li><a @click="getinfo('vest')" class="dropdown-item" >Áo Veste</a> </li>
-                            <li><a @click="getinfo('len')" class="dropdown-item" >Áo len</a> </li>    
-                        </ul>
-                        <li class="btn btn-secondary list-group-item dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Quần </li>
-                        <ul class="dropdown-menu">
-                            <li><a @click="getinfo('Quần Jean')" class="dropdown-item" >Quần Jean</a> </li>
-                            <li><a @click="getinfo('Quần Tây')" class="dropdown-item" >Quần Tây</a> </li>
-                            <li><a @click="getinfo('Quần Kaki')" class="dropdown-item" >Quần KaKi</a> </li>
-                            <li><a @click="getinfo('Quần đùi')" class="dropdown-item" >Quần đùi</a> </li>    
-                        </ul>
-                    </ul>
-                </div>
-                <div class="trendy_List container col-lg-10 ">
+                <div class="trendy_List container col-10 ">
                     <div class="row">
                         <router-link v-for="product in products" :key="product.product_id" :to="`/products/${product.product_id}`" class="card col-4" >
                             <img :src="`${product.images.url}`" class="card-img-top" alt="...">
@@ -46,11 +23,9 @@
                 </div>
             </div>     
        </div>
-    </div>
 </template>
 <script>
-import console from 'console';
-import API from '../../api';
+import API from '../api';
 
 export default {
     data() {
@@ -58,21 +33,21 @@ export default {
             quantity: 1,
             products: [],
             pageNumber: 1,
-            info: ""
         }
     },
     methods: {
         async getProducts() {
             //get product in mongooseDB
+
             let getProducts = await API.getProducts({
                 pageNumber: this.pageNumber,
-                info: this.info
+                search: this.$route.query.search
             });
 
             this.products = getProducts.products
             
             //get number pages
-            let getQuantity = await API.getQuantity({info: this.info});
+            let getQuantity = await API.getQuantity({search: this.$route.query.search});
             let checkPage = getQuantity % 6;
             if(checkPage === 0) {
                 let numberPage = getQuantity / 6;
@@ -105,7 +80,7 @@ export default {
                 this.pageNumber = 1;
                 this.$router.push({query: {page: 1}})
             }
-            // // check shirt pages in router
+            //  check shirt pages in router
             if(this.$route.query.info) {
                 this.info = this.$route.query.info; 
             }else {
@@ -139,23 +114,7 @@ export default {
 
 </script>
 <style >
-    .trendy {
-        margin-top: 16%; 
-        width: 100%;
-    }
-
-    .trendy > h1 {
-        margin: 10% 0;
-        text-align: center;
-    }
-
-    .trendy_ctn_nav {
-        margin: 20px 0;
-    }
-    
-    .trendy_List > .row {
-        justify-content: space-around; 
-    }
+   
     
     .card {
         width: 18rem;

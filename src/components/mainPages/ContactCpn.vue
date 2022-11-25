@@ -1,12 +1,13 @@
 <template >
-    <div class="contact container">
+    <div id="contact" class="contact container" >
         <div class="row">
             <div class="col-lg-6 col-md-12">
                 <form class="row g-3 contact_form">
                     <h1>Đăng Ký <br> với chúng tôi</h1>
                     <p>Bạn sẽ nhận được thông báo của chúng tôi về sản phầm mới nhất</p>
                     <div class="col-12">
-                      <button type="submit" class="btn btn-dark btn-md">Đăng ký</button>
+                        <router-link to="/register"> <button type="submit" class="btn btn-dark btn-md">Đăng ký</button></router-link>
+                      
                     </div>
                   </form>
             </div>

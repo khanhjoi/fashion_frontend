@@ -6,7 +6,9 @@
           <p>
               THĂNG HẠNG PHONG CÁCH - NÂNG TẦM PHONG THÁI
           </p>
-          <button type="button" class="btn btn-dark">Shop Now</button>
+          <router-link to="/">
+            <button type="button" class="btn btn-dark">Shop Now</button>
+          </router-link>
       </div>
       <div class="slide_mg col-lg-6 col-md-12">
           <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
